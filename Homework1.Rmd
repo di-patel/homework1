@@ -1,0 +1,178 @@
+---
+title: "Homework1.Rmd"
+output: html_document
+date: "2025-02-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+Typical_Employee_Survey_Data <- read.csv("/Users/diyapatel/Desktop/Typical_Employee_Survey_Data.csv",header = FALSE)
+```
+## Adding Headers 
+```{r}
+names(Typical_Employee_Survey_Data)[1]<- "Age"
+
+names(Typical_Employee_Survey_Data)[2]<- "Gender"
+
+names(Typical_Employee_Survey_Data)[3]<- "Job Status" 
+
+names(Typical_Employee_Survey_Data)[4]<- "Department"
+
+names(Typical_Employee_Survey_Data)[5]<- "Years at Company"
+
+names(Typical_Employee_Survey_Data)[6]<- "Location"
+ 
+names(Typical_Employee_Survey_Data)[7]<- "Education"
+
+names(Typical_Employee_Survey_Data)[8]<- "Parking Pass"
+
+names(Typical_Employee_Survey_Data)[9]<- "PTO"
+
+names(Typical_Employee_Survey_Data)[10]<- "Days In-Person"
+
+names(Typical_Employee_Survey_Data)[11]<- "Commute Time"
+```
+
+## Five Number Summary
+
+```{r}
+fivenum(Typical_Employee_Survey_Data$Age)
+
+fivenum(Typical_Employee_Survey_Data$Gender)
+
+fivenum(Typical_Employee_Survey_Data$`Job Status`)
+
+fivenum(Typical_Employee_Survey_Data$Department)
+
+fivenum(Typical_Employee_Survey_Data$`Years at Company`)
+
+fivenum(Typical_Employee_Survey_Data$`Location`)
+
+fivenum(Typical_Employee_Survey_Data$`Education`)
+
+fivenum(Typical_Employee_Survey_Data$`Parking Pass`)
+
+fivenum(Typical_Employee_Survey_Data$`PTO`)
+
+fivenum(Typical_Employee_Survey_Data$`Days In-Person`)
+
+fivenum(Typical_Employee_Survey_Data$`Commute Time`)
+```
+
+## Boxplots
+```{r}
+boxplot(Typical_Employee_Survey_Data$Age, main = "Boxplot of Age", col = "lightblue")
+
+boxplot(Typical_Employee_Survey_Data$Gender, main = "Boxplot of Gender", col = "pink")
+
+boxplot(Typical_Employee_Survey_Data$'Job Status', main = "Boxplot of Job Status", col = "lightblue")
+
+boxplot(Typical_Employee_Survey_Data$Department, main = "Boxplot of Departments", col = "lightblue")
+
+boxplot(Typical_Employee_Survey_Data$`Years at Company`, main = "Boxplot of Years at Company", col = "purple")
+
+boxplot(Typical_Employee_Survey_Data$`Location`, main = "Boxplot of Locations", col = "red")
+
+boxplot(Typical_Employee_Survey_Data$`Education`, main = "Boxplot of Education", col = "orange")
+
+boxplot(Typical_Employee_Survey_Data$`Parking Pass`, main = "Boxplot of Parking Pass", col = "violet")
+
+boxplot(Typical_Employee_Survey_Data$`PTO`, main = "Boxplot of PTO", col = "lightgreen")
+
+boxplot(Typical_Employee_Survey_Data$`Days In-Person`, main = "Boxplot of Days In-Person", col = "lightpink")
+
+boxplot(Typical_Employee_Survey_Data$`Commute Time`, main = "Boxplot of Commute Time", col = "yellow")
+```
+
+## Converting to Factors
+```{r}
+Typical_Employee_Survey_Data$Gender <- factor(Typical_Employee_Survey_Data$Gender, levels = c(1, 2), labels = c("M", "F"))
+
+Typical_Employee_Survey_Data$'Job Status' <- factor(Typical_Employee_Survey_Data$'Job Status',levels = c(1, 2, 3, 4),labels = c("PT", "FT", "Retired", "Terminated"))
+
+Typical_Employee_Survey_Data$'Department' <- factor(Typical_Employee_Survey_Data$'Department', levels = c(1, 2, 3, 4, 5), labels = c("HR", "Packaging","IT","Sales","Operations"))
+
+Typical_Employee_Survey_Data$'Location' <- factor(Typical_Employee_Survey_Data$'Location', levels = c(1, 2, 3, 4, 5), labels = c("NJ", "FL","PA","GA","DC"))
+
+Typical_Employee_Survey_Data$Education <- factor(Typical_Employee_Survey_Data$Education,levels = c(1, 2, 3, 4),labels = c("Associates", "Bachelors", "Masters","Doctorate"))
+
+Typical_Employee_Survey_Data$'Parking Pass' <- factor((Typical_Employee_Survey_Data$'Parking Pass'), levels = c(1, 2), labels = c("Yes", "No"))
+
+names(Typical_Employee_Survey_Data)[9]<- "PTO (Weeks)"
+
+names(Typical_Employee_Survey_Data)[11]<- "Commute Time (Hours)"
+```
+
+## Visuals for Each Column
+```{r}
+hist(Typical_Employee_Survey_Data$Age, main = "Age Distribution", xlab = "Age", col = "lightblue", border = "black")
+
+gender_counts <- table(Typical_Employee_Survey_Data$Gender)
+pie(gender_counts, labels = names(gender_counts), main = "Gender Distribution", col = c("lightblue", "pink"))
+
+job_status_counts <- table(Typical_Employee_Survey_Data$'Job Status')
+barplot(job_status_counts, main = "Job Status Distribution", 
+         col = c("lightblue", "lightgreen", "orange", "red"),
+         xlab = "Job Status", ylab = "Count", 
+         border = "black", las = 2)
+department_counts <- table(Typical_Employee_Survey_Data$Department)
+barplot(department_counts, main = "Department Distribution", 
+         col = rainbow(length(department_counts)),
+         xlab = "Count", ylab = "Department", 
+         border = "black", las = 1, horiz = TRUE)
+
+boxplot(Typical_Employee_Survey_Data$`Years at Company`, main = "Boxplot of Years at Company", col = "magenta")
+
+location_counts <- table(Typical_Employee_Survey_Data$Location)
+barplot(location_counts, main = "Location Distribution", 
+         col = c("lightblue", "lightgreen", "orange", "pink", "yellow"),
+         xlab = "Location", ylab = "Count", 
+         border = "black", las = 1)
+
+education_counts <- table(Typical_Employee_Survey_Data$Education)
+pie(education_counts, labels = names(education_counts), main = "Education Distribution", 
+     col = c("lightblue", "lightgreen", "orange", "pink", "yellow"))
+
+parking_pass_counts <- table(Typical_Employee_Survey_Data$'Parking Pass')
+pie(parking_pass_counts, labels = names(parking_pass_counts), main = "Parking Pass Distribution", 
+     col = c("lightblue", "lightgreen"))
+
+boxplot(Typical_Employee_Survey_Data$`PTO`, main = "Boxplot of PTO (Weeks)", col = "blue")
+
+days_in_person_counts <- table(Typical_Employee_Survey_Data$'Days In-Person')
+barplot(days_in_person_counts, main = "Days In-Person Distribution", col = c("lightblue", "lightgreen"), xlab = "Days In-Person", ylab = "Count",border = "black", las = 1)
+
+commute_time_counts <- table(Typical_Employee_Survey_Data$'Commute Time(Hours)')
+hist(Typical_Employee_Survey_Data$`Commute Time (Hours)`, 
+      main = "Commute Time Distribution (in Hours)", 
+      xlab = "Commute Time (hours)", 
+      col = "lightblue", 
+      border = "black", 
+      breaks = 10)
+```
+## Scatter Plots to Show Relationships
+```{r}
+plot(Typical_Employee_Survey_Data$PTO, Typical_Employee_Survey_Data$`Commute Time (Hours)`,
+      main = "PTO vs. Commute Time",
+      xlab = "PTO", ylab = "Commute Time (Hours)",
+      col = "red", pch = 19)
+      
+plot(Typical_Employee_Survey_Data$`Years at Company`, Typical_Employee_Survey_Data$`Commute Time (Hours)`,
+      main = "Years at Company vs. Commute Time",
+      xlab = "Years at Company", ylab = "Commute Time (Hours)",
+      col = "blue", pch = 19)  
+      
+plot(Typical_Employee_Survey_Data$Age,Typical_Employee_Survey_Data$`Years_At_Company`,
+      main = "Age vs. Years at Company",
+      xlab = "Age", ylab = "Years at Company",
+      col = "purple", pch = 19)  
+```
